@@ -229,7 +229,7 @@ const SidePanel = ({
             className={classnames('text-primary-active', side === 'left' && 'rotate-180 transform')}
           />
         </div>
-        <div className={classnames('mt-3 flex flex-col space-y-3')}>
+        {/* <div className={classnames('mt-3 flex flex-col space-y-3')}>
           {_childComponents.map((childComponent, index) => (
             <Tooltip
               position={side === 'left' ? 'right' : 'left'}
@@ -262,7 +262,7 @@ const SidePanel = ({
               </div>
             </Tooltip>
           ))}
-        </div>
+        </div> */}
       </>
     );
   };
@@ -292,12 +292,13 @@ const SidePanel = ({
     const numCols = getNumGridColumns(tabs.length, gridWidth);
 
     return (
-      <div className={classnames('flex grow ', side === 'right' ? 'justify-start' : 'justify-end')}>
+      <div className={classnames('flex grow', side === 'right' ? 'justify-start' : 'justify-end')}>
         <div
           className={classnames('bg-primary-dark text-primary-active flex flex-wrap')}
           style={getGridStyle(side, tabs.length, gridWidth, expandedWidth)}
         >
-          {tabs.map((tab, tabIndex) => {
+          <span className="select-none">Report</span>
+          {/* {tabs.map((tab, tabIndex) => {
             const { disabled } = tab;
             return (
               <React.Fragment key={tabIndex}>
@@ -344,7 +345,7 @@ const SidePanel = ({
                 </Tooltip>
               </React.Fragment>
             );
-          })}
+          })} */}
         </div>
       </div>
     );
@@ -354,7 +355,7 @@ const SidePanel = ({
     return (
       <div
         className={classnames(
-          'text-primary-active flex	 grow cursor-pointer select-none justify-center self-center text-[13px]'
+          'text-primary-active flex grow cursor-pointer select-none justify-center self-center text-[13px]'
         )}
         style={{
           ...(side === 'left'
@@ -371,7 +372,7 @@ const SidePanel = ({
 
   const getOpenStateComponent = () => {
     return (
-      <div className="bg-primary-dark flex select-none rounded-t pt-1.5 pb-[2px]	">
+      <div className="bg-primary-dark flex select-none rounded-t pt-1.5 pb-[2px]">
         {getCloseIcon()}
         {tabs.length === 1 ? getOneTabComponent() : getTabGridComponent()}
       </div>

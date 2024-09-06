@@ -7,6 +7,7 @@ import NoSegmentationRow from './NoSegmentationRow';
 import AddSegmentRow from './AddSegmentRow';
 import SegmentationGroupSegment from './SegmentationGroupSegment';
 import { useTranslation } from 'react-i18next';
+import CustomEditor from '../../component/CustomEditor';
 
 const SegmentationGroupTable = ({
   segmentations = [],
@@ -70,8 +71,8 @@ const SegmentationGroupTable = ({
   const { t } = useTranslation('SegmentationTable');
 
   return (
-    <div className="flex min-h-0 flex-col bg-black text-[13px] font-[300]">
-      <PanelSection
+    <div className="flex min-h-0 flex-col bg-black text-[13px] font-[300] text-white">
+      {/* <PanelSection
         title={t('Segmentation')}
         actionIcons={
           activeSegmentation && [
@@ -161,7 +162,8 @@ const SegmentationGroupTable = ({
             })}
           </div>
         )}
-      </PanelSection>
+      </PanelSection> */}
+      <CustomEditor />
     </div>
   );
 };

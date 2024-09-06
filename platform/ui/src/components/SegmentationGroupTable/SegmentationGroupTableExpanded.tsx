@@ -63,7 +63,7 @@ const SegmentationGroupTableExpanded = ({
 
   return (
     <div className="flex min-h-0 flex-col bg-black text-[13px] font-[300]">
-      <PanelSection
+      {/* <PanelSection
         title={t('Segmentation')}
         actionIcons={
           activeSegmentation && [
@@ -124,7 +124,7 @@ const SegmentationGroupTableExpanded = ({
             </div>
           )}
         </div>
-      </PanelSection>
+      </PanelSection> */}
     </div>
   );
 };

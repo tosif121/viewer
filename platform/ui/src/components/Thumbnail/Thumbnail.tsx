@@ -50,69 +50,71 @@ const Thumbnail = ({
   };
 
   return (
-    <div
-      className={classnames(
-        className,
-        'group mb-8 flex flex-1 cursor-pointer select-none flex-col px-3 outline-none'
-      )}
-      id={`thumbnail-${displaySetInstanceUID}`}
-      data-cy={`study-browser-thumbnail`}
-      data-series={seriesNumber}
-      onClick={onClick}
-      onDoubleClick={onDoubleClick}
-      onTouchEnd={handleTouchEnd}
-      role="button"
-      tabIndex="0"
-    >
-      <div ref={drag}>
-        <div
-          className={classnames(
-            'flex h-32 flex-1 items-center justify-center overflow-hidden rounded-md bg-black text-base text-white',
-            isActive
-              ? 'border-primary-light border-2'
-              : 'border-secondary-light border hover:border-blue-300'
-          )}
-        >
-          {imageSrc ? (
-            <img
-              src={imageSrc}
-              alt={imageAltText}
-              className="h-full w-full object-contain"
-              crossOrigin="anonymous"
-            />
-          ) : (
-            <div>{imageAltText}</div>
-          )}
-        </div>
-        <div className="flex flex-1 flex-row items-center pt-2 text-base text-blue-300">
-          <div className="mr-4">
-            <span className="text-primary-main font-bold">{'S: '}</span>
-            {seriesNumber}
+    <>
+      <div
+        className={classnames(
+          className,
+          'group mb-8 flex flex-1 cursor-pointer select-none flex-col px-3 outline-none'
+        )}
+        id={`thumbnail-${displaySetInstanceUID}`}
+        data-cy={`study-browser-thumbnail`}
+        data-series={seriesNumber}
+        // onClick={onClick}
+        onClick={onDoubleClick}
+        onTouchEnd={handleTouchEnd}
+        role="button"
+        tabIndex="0"
+      >
+        <div ref={drag}>
+          <div
+            className={classnames(
+              'flex h-32 flex-1 items-center justify-center overflow-hidden rounded-md bg-black text-base text-white',
+              isActive
+                ? 'border-primary-light border-2'
+                : 'border-secondary-light border hover:border-blue-300'
+            )}
+          >
+            {imageSrc ? (
+              <img
+                src={imageSrc}
+                alt={imageAltText}
+                className="h-full w-full object-contain"
+                crossOrigin="anonymous"
+              />
+            ) : (
+              <div>{imageAltText}</div>
+            )}
           </div>
-          <div className="flex flex-1 flex-row items-center">
-            <Icon
-              name={countIcon || 'group-layers'}
-              className="mr-2 w-3"
-            />
-            {` ${numInstances}`}
-          </div>
-          <div className="mr-2 flex last:mr-0">
-            {loadingProgress && loadingProgress < 1 && <>{Math.round(loadingProgress * 100)}%</>}
-            {loadingProgress && loadingProgress === 1 && (
+          <div className="flex flex-1 flex-row items-center pt-2 text-base text-blue-300">
+            <div className="mr-4">
+              <span className="text-primary-main font-bold">{'S: '}</span>
+              {seriesNumber}
+            </div>
+            <div className="flex flex-1 flex-row items-center">
               <Icon
-                name={'database'}
-              className="w-3"
+                name={countIcon || 'group-layers'}
+                className="mr-2 w-3"
+              />
+              {` ${numInstances}`}
+            </div>
+            <div className="mr-2 flex last:mr-0">
+              {loadingProgress && loadingProgress < 1 && <>{Math.round(loadingProgress * 100)}%</>}
+              {loadingProgress && loadingProgress === 1 && (
+                <Icon
+                  name={'database'}
+                  className="w-3"
+                />
+              )}
+            </div>
+            <DisplaySetMessageListTooltip
+              messages={messages}
+              id={`display-set-tooltip-${displaySetInstanceUID}`}
             />
-          )}
+          </div>
+          <div className="break-all text-base text-white">{description}</div>
         </div>
-        <DisplaySetMessageListTooltip
-          messages={messages}
-          id={`display-set-tooltip-${displaySetInstanceUID}`}
-        />
-        </div>
-        <div className="break-all text-base text-white">{description}</div>
       </div>
-    </div>
+    </>
   );
 };
 
