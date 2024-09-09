@@ -65,6 +65,7 @@
   },
   "dependencies": {
     "execa": "^8.0.1",
+    "jodit-react": "^4.1.2",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.3"
   },

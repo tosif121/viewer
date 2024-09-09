@@ -12,6 +12,7 @@ import buildModeRoutes from './buildModeRoutes';
 import PrivateRoute from './PrivateRoute';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import LoginPage from './Login';
 
 const NotFoundServer = ({
   message = 'Unable to query for studies at this time. Check your data source configuration or network connection',
@@ -54,6 +55,8 @@ NotFoundStudy.propTypes = {
 
 // TODO: Include "routes" debug route if dev build
 const bakedInRoutes = [
+  { path: '/login', children: LoginPage },
+
   {
     path: '/notfoundserver',
     children: NotFoundServer,
