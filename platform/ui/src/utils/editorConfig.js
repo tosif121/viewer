@@ -1,0 +1,17 @@
+export const editorConfig = {
+  addNewLine: false,
+  readonly: false,
+  toolbar: true,
+  spellcheck: false,
+  language: 'en',
+  toolbarButtonSize: 'medium',
+  toolbarAdaptive: false,
+  showCharsCounter: false,
+  showWordsCounter: false,
+  showXPathInStatusbar: false,
+  askBeforePasteHTML: false,
+  askBeforePasteFromWord: false,
+  width: 'auto',
+  height: '70vh',
+  buttons: ['bold', 'italic', 'underline'],
+};
