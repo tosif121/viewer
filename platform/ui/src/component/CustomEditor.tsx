@@ -28,14 +28,18 @@ const generatePDF = content => {
   const parser = new DOMParser();
   const htmlDoc = parser.parseFromString(content, 'text/html');
 
-  const processNode = (node, x, y) => {
+  const pageWidth = doc.internal.pageSize.getWidth(); // Get the width of the A4 page
+  const margin = 20; // Set margin for the page
+  const maxWidth = pageWidth - margin * 2; // Maximum width of the text area
+  let y = 20; // Initial y position
+
+  const processNode = (node, x) => {
     if (node.nodeType === Node.TEXT_NODE) {
-      return [{ text: node.textContent, x, y }];
+      return [{ text: node.textContent, x }];
     }
 
     let elements = [];
     let currentX = x;
-    let maxY = y;
 
     for (let child of node.childNodes) {
       if (child.nodeType === Node.TEXT_NODE) {
@@ -46,28 +50,32 @@ const generatePDF = content => {
         doc.setFont('Helvetica', font);
         doc.setFontSize(12);
 
-        const textWidth = doc.getTextWidth(child.textContent);
-        if (currentX + textWidth > 550) {
-          // A4 width is about 595pt, leaving margins
-          currentX = x;
-          maxY += 20; // Move to next line
-        }
+        const words = child.textContent.split(' ');
+        for (let word of words) {
+          const wordWidth = doc.getTextWidth(word + ' ');
 
-        elements.push({
-          text: child.textContent,
-          x: currentX,
-          y: maxY,
-          font,
-          underline: node.nodeName === 'U',
-        });
-        currentX += textWidth + 2; // Add a small space between words
+          // If the word exceeds the available width, move to the next line
+          if (currentX + wordWidth > maxWidth) {
+            currentX = margin;
+            y += 20; // Move down to the next line
+          }
+
+          elements.push({
+            text: word + ' ',
+            x: currentX,
+            y,
+            font,
+            underline: node.nodeName === 'U',
+          });
+
+          currentX += wordWidth; // Move the cursor forward for the next word
+        }
       } else {
-        const childElements = processNode(child, currentX, maxY);
+        const childElements = processNode(child, currentX);
         elements = elements.concat(childElements);
         if (childElements.length > 0) {
           const lastElement = childElements[childElements.length - 1];
-          currentX = lastElement.x + doc.getTextWidth(lastElement.text) + 2;
-          maxY = Math.max(maxY, lastElement.y);
+          currentX = lastElement.x + doc.getTextWidth(lastElement.text);
         }
       }
     }
@@ -75,7 +83,7 @@ const generatePDF = content => {
     return elements;
   };
 
-  const elements = processNode(htmlDoc.body, 20, 20);
+  const elements = processNode(htmlDoc.body, margin);
 
   elements.forEach(element => {
     doc.setFont('Helvetica', element.font);
