@@ -38,7 +38,7 @@ const Logout: React.FC = () => {
     >
       <button
         onClick={toggleDropdown}
-        className="inline-flex w-full justify-center px-3 text-lg text-gray-700"
+        className="inline-flex w-full justify-center px-3 text-lg text-white"
       >
         SUPRAVI
         <svg

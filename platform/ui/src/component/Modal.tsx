@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
+import { StudyInfoTable } from './StudyInfoTable';
 
-const Modal = ({ isOpen, onClose, content, onGeneratePDF }) => {
+const Modal = ({ isOpen, onClose, content, onGeneratePDF, tableData }) => {
   const modalRef = useRef(null);
 
   useEffect(() => {
@@ -22,21 +23,16 @@ const Modal = ({ isOpen, onClose, content, onGeneratePDF }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-30 flex items-center justify-center bg-gray-800 bg-opacity-50">
+    <div className="fixed inset-0 z-30 flex items-center justify-center bg-black/60">
       <div
-        className="relative w-[210mm] rounded-lg bg-gray-700 p-6 shadow-lg"
+        className="relative w-[210mm] rounded-lg bg-[#131128] p-3 shadow-lg"
         ref={modalRef}
       >
         <div className="flex justify-between">
-          <h2 className="text-xl font-bold text-white">Preview Your Content</h2>
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 text-red-500"
-          >
-            ✖
-          </button>
+          <h2 className="mb-3 text-lg font-bold text-white">Preview Your Content</h2>
         </div>
-        <div className="mt-4 overflow-auto border bg-white p-4 text-gray-800">
+        {tableData ? <StudyInfoTable tableData={tableData} /> : <div>Loading...</div>}
+        <div className="mt-3 overflow-auto border bg-white p-4 text-gray-800">
           <div
             dangerouslySetInnerHTML={{ __html: content }}
             className="min-h-96"

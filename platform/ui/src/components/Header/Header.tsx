@@ -10,6 +10,8 @@ import IconButton from '../IconButton';
 import Dropdown from '../Dropdown';
 import HeaderPatientInfo from '../HeaderPatientInfo';
 import { PatientInfoVisibility } from '../../types/PatientInfoVisibility';
+import logo from '../../assets/svgs/logo.png';
+import Logout from '../../component/Logout';
 
 function Header({
   children,
@@ -39,8 +41,8 @@ function Header({
       isSticky={isSticky}
       {...props}
     >
-      <div className="relative h-[48px] items-center ">
-        <div className="absolute left-0 top-1/2 flex -translate-y-1/2 items-center">
+      <div className="relative flex h-[55px] items-center justify-between">
+        {/* <div className="absolute left-0 top-1/2 flex -translate-y-1/2 items-center">
           <div
             className={classNames(
               'mr-3 inline-flex items-center',
@@ -58,13 +60,25 @@ function Header({
             <div className="ml-1">
               {WhiteLabeling?.createLogoComponentFn?.(React, props) || <Svg name="logo-ohif" />}
             </div>
-          </div>
-        </div>
-        <div className="absolute top-1/2 left-[250px]  h-8 -translate-y-1/2">{Secondary}</div>
+          </div> */}
+        <a
+          href="https://pacsdev.iotcom.io/"
+          className=""
+        >
+          <img
+            src={logo}
+            alt="Logo"
+            width={165}
+          />
+        </a>
+
+        <div className="absolute top-1/2 left-[250px] h-8 -translate-y-1/2">{Secondary}</div>
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
           <div className="flex items-center justify-center space-x-2">{children}</div>
         </div>
-        <div className="absolute right-0 top-1/2 flex -translate-y-1/2 select-none items-center">
+        <Logout />
+
+        {/* <div className="absolute right-0 top-1/2 flex -translate-y-1/2 select-none items-center">
           {showPatientInfo !== PatientInfoVisibility.DISABLED && (
             <HeaderPatientInfo
               servicesManager={servicesManager}
@@ -90,7 +104,7 @@ function Header({
               </IconButton>
             </Dropdown>
           </div>
-        </div>
+        </div> */}
       </div>
     </NavBar>
   );

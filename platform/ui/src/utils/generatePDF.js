@@ -11,6 +11,42 @@ export const generatePDF = (content, tableData) => {
   const maxWidth = pageWidth - margin * 2;
   let y = 20;
 
+  const tableOptions = {
+    startY: y,
+    margin: { left: margin, right: margin },
+    tableWidth: 'auto',
+    styles: { fontSize: 10 },
+  };
+
+  doc.autoTable({
+    ...tableOptions,
+    head: [['Patient ID', 'Patient Name', 'Date', 'Study']],
+    body: [
+      [
+        tableData?.patientID || '',
+        tableData?.name || '',
+        tableData?.formattedDate || '',
+        tableData?.study || '',
+      ],
+    ],
+  });
+
+  y = doc.lastAutoTable.finalY;
+
+  doc.autoTable({
+    ...tableOptions,
+    startY: y,
+    head: [['Gender', 'Modality', 'Age', 'Ref Doctor']],
+    body: [
+      [
+        tableData?.PatientSex || '',
+        tableData?.modality || '',
+        tableData?.PatientAge || '',
+        tableData?.ReferringPhysicianName || '',
+      ],
+    ],
+  });
+
   const processNode = (node, x) => {
     if (node.nodeType === Node.TEXT_NODE) {
       return [{ text: node.textContent, x }];
@@ -32,10 +68,9 @@ export const generatePDF = (content, tableData) => {
         for (let word of words) {
           const wordWidth = doc.getTextWidth(word + ' ');
 
-          // If the word exceeds the available width, move to the next line
           if (currentX + wordWidth > maxWidth) {
             currentX = margin;
-            y += 20; // Move down to the next line
+            y += 20;
           }
 
           elements.push({
@@ -46,22 +81,20 @@ export const generatePDF = (content, tableData) => {
             underline: node.nodeName === 'U',
           });
 
-          currentX += wordWidth; // Move the cursor forward for the next word
+          currentX += wordWidth;
         }
       } else if (child.nodeName === 'BR') {
-        // Handle <br> elements by moving to the next line
         currentX = margin;
-        y += 20; // Move down to the next line
+        y += 20;
       } else if (['P', 'DIV'].includes(child.nodeName)) {
-        // Handle <p> and <div> elements as block elements with a line break before
         currentX = margin;
-        y += 20; // Move down to the next line
+        y += 20;
         const childElements = processNode(child, currentX);
         elements = elements.concat(childElements);
         if (childElements.length > 0) {
           const lastElement = childElements[childElements.length - 1];
           currentX = lastElement.x + doc.getTextWidth(lastElement.text);
-          y += 20; // Add extra space after block elements
+          y += 10;
         }
       } else {
         const childElements = processNode(child, currentX);
