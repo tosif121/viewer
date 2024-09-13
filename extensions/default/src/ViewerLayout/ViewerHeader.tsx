@@ -121,7 +121,7 @@ function ViewerHeader({
       appConfig={appConfig}
     >
       <ErrorBoundary context="Primary Toolbar">
-        <div className="relative flex justify-center gap-[4px]">
+        <div className="relative flex justify-center bg-secondary-dark md:gap-[4px] md:top-0 top-10">
           <Toolbar servicesManager={servicesManager} />
         </div>
       </ErrorBoundary>

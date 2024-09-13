@@ -42,6 +42,23 @@ class ImageScrollbar extends PureComponent {
             onKeyDown={this.onKeyDown}
           />
         </div>
+        <div
+          className="slider_screen absolute w-full"
+          onContextMenu={this.props.onContextMenu}
+        >
+          <div className="scroll-holder">
+            <input
+              className="imageSlide mousetrap range_slider w-full rounded"
+              type="range"
+              min="0"
+              max={this.props.max}
+              step="1"
+              value={this.props.value}
+              onChange={this.onChange}
+              onKeyDown={this.onKeyDown}
+            />
+          </div>
+        </div>
       </div>
     );
   }

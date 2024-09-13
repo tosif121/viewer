@@ -23,7 +23,11 @@ function ViewerLayout({
 
   const { panelService, hangingProtocolService } = servicesManager.services;
   const [showLoadingIndicator, setShowLoadingIndicator] = useState(appConfig.showLoadingIndicator);
+  const [activeButton, setActiveButton] = useState('Studies');
 
+  const handleButtonClick = buttonName => {
+    setActiveButton(buttonName);
+  }
   const hasPanels = useCallback(
     (side): boolean => !!panelService.getPanels(side).length,
     [panelService]
@@ -116,13 +120,12 @@ function ViewerLayout({
         servicesManager={servicesManager}
         appConfig={appConfig}
       />
-      <div
-        className="relative flex w-full flex-row flex-nowrap items-stretch overflow-hidden bg-black"
-        style={{ height: 'calc(100vh - 52px' }}
-      >
+       <div className="img_section relative w-full flex-row flex-nowrap items-stretch overflow-y-auto overflow-x-hidden bg-black md:flex md:overflow-hidden">
+
         <React.Fragment>
           {showLoadingIndicator && <LoadingIndicatorProgress className="h-full w-full bg-black" />}
-          {/* LEFT SIDEPANELS */}
+          <div className={`${(activeButton == 'Studies' && 'flex') || 'hidden md:flex'}`}>
+
           {hasLeftPanels ? (
             <ErrorBoundary context="Left Panel">
               <SidePanelWithServices
@@ -132,8 +135,12 @@ function ViewerLayout({
               />
             </ErrorBoundary>
           ) : null}
-          {/* TOOLBAR + GRID */}
-          <div className="flex h-full flex-1 flex-col">
+          </div>
+          <div
+            className={`flex h-full flex-1 flex-col ${
+              (activeButton == 'Image' && 'flex h-full') || 'middle_img'
+            }`}
+          >
             <div className="relative flex h-full flex-1 items-center justify-center overflow-hidden bg-black">
               <ErrorBoundary context="Grid">
                 <ViewportGridComp
@@ -144,6 +151,8 @@ function ViewerLayout({
               </ErrorBoundary>
             </div>
           </div>
+          <div className={`${(activeButton == 'Report' && 'flex') || 'hidden md:flex'}`}>
+
           {hasRightPanels ? (
             <ErrorBoundary context="Right Panel">
               <SidePanelWithServices
@@ -153,11 +162,43 @@ function ViewerLayout({
               />
             </ErrorBoundary>
           ) : null}
+          </div>
         </React.Fragment>
       </div>
 
-      <InvestigationalUseDialog dialogConfiguration={appConfig?.investigationalUseDialog} />
-    </div>
+      <div className="mt-1 flex items-center justify-center gap-4 md:hidden">
+        <button
+          className={`rounded px-2 py-1 text-sm ${
+            activeButton === 'Studies'
+              ? 'bg-blue-500 text-white'
+              : 'border border-blue-500 text-white'
+          }`}
+          onClick={() => handleButtonClick('Studies')}
+        >
+          Studies
+        </button>
+        <button
+          className={`rounded px-2 py-1 text-sm ${
+            activeButton === 'Image'
+              ? 'bg-blue-500 text-white'
+              : 'border border-blue-500 text-white'
+          }`}
+          onClick={() => handleButtonClick('Image')}
+        >
+          Image
+        </button>
+        <button
+          className={`rounded px-2 py-1 text-sm ${
+            activeButton === 'Report'
+              ? 'bg-blue-500 text-white'
+              : 'border border-blue-500 text-white'
+          }`}
+          onClick={() => handleButtonClick('Report')}
+        >
+          Report
+        </button>
+      </div>
+          </div>
   );
 }
 

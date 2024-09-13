@@ -62,7 +62,7 @@ const SegmentationGroupTableExpanded = ({
   const { t } = useTranslation('SegmentationTable');
 
   return (
-    <div className="flex min-h-0 flex-col bg-black text-[13px] font-[300]">
+    <div className="flex min-h-0 flex-col overflow-auto bg-black text-[13px] font-[300]">
       {/* <PanelSection
         title={t('Segmentation')}
         actionIcons={

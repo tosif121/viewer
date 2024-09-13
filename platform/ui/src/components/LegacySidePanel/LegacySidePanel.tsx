@@ -169,7 +169,7 @@ const LegacySidePanel = ({
               content={`${childComponent.label}`}
               className={classnames(
                 'flex items-center',
-                side === 'left' ? 'justify-end ' : 'justify-start '
+                side === 'left' ? 'justify-end' : 'justify-start'
               )}
             >
               <IconButton
@@ -234,7 +234,6 @@ const LegacySidePanel = ({
                 )}
                 style={{ ...position[side] }}
               />
-              {/* Todo: ass secondary label here */}
               <span className="text-primary-active">
                 {tabs.length === 1 && (t(tabs[activeTabIndex].label) as string)}
               </span>
@@ -337,7 +336,7 @@ function _getMoreThanOneTabLayout(
               <div
                 className={classnames(
                   index === activeTabIndex ? 'bg-secondary-main text-white' : 'text-aqua-pale',
-                  'flex cursor-pointer flex-col items-center justify-center  rounded-[4px] px-4 py-1 text-center hover:text-white'
+                  'flex cursor-pointer flex-col items-center justify-center rounded-[4px] px-4 py-1 text-center hover:text-white'
                 )}
                 key={index}
                 onClick={() => {

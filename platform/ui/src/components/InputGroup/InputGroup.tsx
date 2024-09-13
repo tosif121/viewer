@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import getGridWidthClass from '../../utils/getGridWidthClass';
@@ -17,6 +17,17 @@ const InputGroup = ({
   isSortingEnabled,
 }) => {
   const { sortBy, sortDirection } = sorting;
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleFilterLabelClick = name => {
     if (isSortingEnabled) {
@@ -116,14 +127,20 @@ const InputGroup = ({
         break;
     }
   };
+
   return (
-    <div className="container relative m-auto flex flex-col">
+    <div
+      className="container relative m-auto flex flex-col"
+      style={{
+        width: `${screenWidth * 2.5}px`,
+      }}
+    >
       <div className="flex w-full flex-row">
         {inputMeta.map(inputMeta => {
           return (
             <div
               key={inputMeta.name}
-              className={classnames('pl-4 first:pl-12', getGridWidthClass(inputMeta.gridCol))}
+              className={classnames('pl-4 md:first:pl-12', getGridWidthClass(inputMeta.gridCol))}
             >
               {renderFieldInputComponent(inputMeta)}
             </div>

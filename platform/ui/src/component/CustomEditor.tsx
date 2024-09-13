@@ -6,12 +6,14 @@ import { StudyInfoTable } from './StudyInfoTable';
 import { postDatatoServer } from '../utils/services';
 import Modal from './Modal';
 import JoditEditor from 'jodit-react';
+import axios from 'axios';
 
 const CustomEditor = () => {
   const editor = useRef(null);
   const [content, setContent] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tableData, setTableData] = useState(null);
+  const [reports, setReports] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +25,8 @@ const CustomEditor = () => {
     const handleResponse = responseData => {
       if (responseData.status === 'success') {
         setTableData(responseData.response[0]);
+      } else {
+        console.error('Error:', responseData.error);
       }
     };
 
@@ -45,6 +49,29 @@ const CustomEditor = () => {
   }, []);
 
   useEffect(() => {
+    const fetchData = async () => {
+      const url = window.location.href;
+      const urlParams = new URLSearchParams(url.split('?')[1]);
+      const studyInstanceUIDs = urlParams.get('StudyInstanceUIDs');
+
+      try {
+        const reqBody = { name: studyInstanceUIDs };
+        const response = await axios.post('https://devvideo.iotcom.io/newTemplate', reqBody);
+
+        if (response.status === 200) {
+          setReports(response.data.result);
+        } else {
+          throw new Error('Failed to fetch reports data');
+        }
+      } catch (error) {
+        console.error('Error during data fetch:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
       navigate('/login');
@@ -54,12 +81,12 @@ const CustomEditor = () => {
   const handleSave = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
   const handleGeneratePDF = () => generatePDF(content, tableData);
-
+  console.log(reports, 'reports');
   return (
     <div className="min-h-screen text-gray-100">
       {tableData ? <StudyInfoTable tableData={tableData} /> : <div>Loading...</div>}
 
-      <div className="editor-container text-xl text-black">
+      <div className="editor-container font-inter text-xl text-black">
         <JoditEditor
           ref={editor}
           value={content}

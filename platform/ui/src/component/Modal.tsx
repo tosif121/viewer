@@ -32,7 +32,7 @@ const Modal = ({ isOpen, onClose, content, onGeneratePDF, tableData }) => {
           <h2 className="mb-3 text-lg font-bold text-white">Preview Your Content</h2>
         </div>
         {tableData ? <StudyInfoTable tableData={tableData} /> : <div>Loading...</div>}
-        <div className="mt-3 overflow-auto border bg-white p-4 text-gray-800">
+        <div className="font-inter mt-3 overflow-auto border bg-white p-2 text-xl text-gray-800">
           <div
             dangerouslySetInnerHTML={{ __html: content }}
             className="min-h-96"

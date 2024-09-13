@@ -23,7 +23,7 @@ const gridHorizontalPadding = 10;
 const tabSpacerWidth = 2;
 
 const baseClasses =
-  'transition-all duration-300 ease-in-out bg-black border-black justify-start box-content flex flex-col';
+  'left_side transition-all duration-300 ease-in-out bg-black border-black justify-start box-content flex flex-col';
 
 const classesMap = {
   open: {
